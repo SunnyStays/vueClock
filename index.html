@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+        <title>Vue App</title>
+
+        <!--Fonts-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+        <!--Vue Importmap-->
+        <script type="importmap">
+            {
+              "imports": {
+                "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+              }
+            }
+          </script>
+    </head>
+    <body>
+        <!--HTML-->
+        <div class="wrapper" id="app">
+                <span>The current time is</span>
+                <div class="break"></div>
+                <div><span class="clock"> {{hours}}:{{minutes}}:{{seconds}}</span></div>
+                <div class="break"></div>
+                <span>That is {{percent}}% of the day</span>
+                <div class="break"></div>
+                <div class="percent-wrapper">
+                    <div class="percent-display" v-bind:style="{ width: percent + '%' }"></div>
+                </div>
+        </div>
+        
+        <!--Style-->
+        <style>
+            html,body {
+                width: 100%;
+                font-family: 'Open Sans', sans-serif;
+                background-color: #111;
+                color: #fff;
+
+                margin: 5px 0;
+            } 
+
+            .wrapper {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+
+                max-width: 400px;
+                margin: 0 auto;
+
+                padding: 15px;
+                border-radius: 5px;
+
+                background-color: #222;
+            }
+
+            .break {
+                flex-basis: 100%;
+                height: 0;
+            }
+
+            .clock {
+                display: inline-block;
+
+                font-size: 25px;
+                line-height: 25px;
+                padding: 5px;
+
+                background-color:blue;
+                color:white;
+                border-radius: 5px;
+
+                margin: 5px 0;
+            }
+
+            .percent-wrapper{
+                height: 10px;
+                width: 50%;
+
+                margin: 10px 0;
+
+                background-color: lightblue;
+                border-radius: 10px;
+
+                overflow: hidden;
+            }
+
+            .percent-display {
+                height: 100%;
+                width: 50%;
+
+                border-radius: 10px;
+
+                background-color: blue;
+            }
+        </style>
+
+        <!--Vue Scripts-->
+        <script type="module">
+        import { createApp } from 'vue'
+        
+        const date = new Date();
+        createApp({
+            data() {
+            return {
+                hours: date.getHours(),
+                minutes: date.getMinutes(),
+                seconds: date.getSeconds(),
+                interval: 0,
+                percent:50
+            }
+        },
+        mounted() {
+            this.interval = setInterval(this.updateClock, 1000);
+        },
+        methods: {
+            updateClock() {
+                const date = new Date()
+
+                this.hours = date.getHours()
+                this.minutes = date.getMinutes()
+                this.seconds = date.getSeconds()
+                
+                this.hours = this.hours < 10 ? '0' + this.hours : this.hours
+                this.minutes = this.minutes < 10 ? '0' + this.minutes : this.minutes
+                this.seconds = this.seconds < 10 ? '0' + this.seconds : this.seconds
+                //this.percent = Math.floor(Math.floor(date.getTime()/1000)%86400)/1000
+                this.percent = Math.floor(((date.getHours()*60 +date.getMinutes())*60 + date.getSeconds()) /86400*1000  )/10
+            }
+        }
+        }).mount('#app')
+        </script>
+    </body>
+</html>
