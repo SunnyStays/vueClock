@@ -4,7 +4,7 @@
 
 html,body {
     width: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Ubuntu Mono", monospace;
     background-color: #111;
     color: #fff;
 
@@ -63,4 +63,27 @@ html,body {
     border-radius: 10px;
 
     background-color: var(--hexColor);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+
+    width:100%;
+    height:30px;
+    
+    padding: 0px 25px;
+
+    font-size:small;
+    
+    overflow:hidden;
+}
+
+footer a {
+    color: #ddd;
+    font-weight: bold;
+}
+
+footer a:hover, footer a:active{
+    color:#fff
 }
